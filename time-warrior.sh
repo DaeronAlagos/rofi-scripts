@@ -22,10 +22,12 @@ COMMANDS=(
 )
 
 list_commands() {
-    for i in "${COMMANDS[@]}"
+    echo -en "\0message\x1f<b>Quit</b> to exit\n"
+    for command in ${COMMANDS[@]}
     do
-        echo "$i"
+        echo $command
     done
+    echo -en "Quit\0icon\x1fexit\n"
 }
 
 _tags() {
