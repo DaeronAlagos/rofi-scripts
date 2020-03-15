@@ -28,6 +28,16 @@ list_commands() {
     done
 }
 
+_tags() {
+    TAGS=($(timew tags :week))
+    S_TAGS=${TAGS[@]:4}
+    NEW_TAGS=( ${S_TAGS[@]//-/} )
+    for tag in ${NEW_TAGS[@]}
+    do
+        echo $tag
+    done
+}
+
 if [[ -z "$@" ]]; then
     list_commands
 else
@@ -37,9 +47,9 @@ else
     if [[ "$@" = "Start" ]]; then
         echo -en "\x00prompt\x1fTag: \n"
         echo -en "\0message\x1f<b>Quit</b> to exit\n"
+        _tags
         echo -en "Quit\0icon\x1fexit\n"
-        # echo "Quit"
-        TASK=$(echo )
+
     elif [[ "$@" = "Stop" ]]; then
         timew stop >/dev/null
         exit 0
