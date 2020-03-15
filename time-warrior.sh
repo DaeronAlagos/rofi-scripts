@@ -1,36 +1,49 @@
 #!/usr/bin/env bash
 
+COMMANDS=(
+    "Start"
+    "Stop"
+    "Track"
+    "Cancel"
+    # ["Undo"]="undo"
+    # ["Join"]="join"
+    # ["Split"]="split"
+    # ["Modify"]="modify"
+    # ["Resize"]="resize"
+    # ["Shorten"]="shorten"
+    # ["Lengthen"]="lengthen"
+    # ["Move"]="move"
+    # ["Delete"]="delete"
+    # ["Continue"]="continue"
+    # ["Cancel"]="cancel"
+    # ["Track"]="track"
+    # ["Stop"]="stop"
+    # ["Start"]="start"
+)
+
 list_commands() {
-    echo "start"
-    echo "stop"
-    # echo "track"
-    echo "cancel"
-    # echo "continue"
-    # echo "delete"
-    # echo "move"
-    # echo "lengthen"
-    # echo "shorten"
-    # echo "resize"
-    # echo "modify"
-    # echo "split"
-    # echo "join"
-    # echo "undo"
+    for i in "${COMMANDS[@]}"
+    do
+        echo "$i"
+    done
 }
 
 if [[ -z "$@" ]]; then
     list_commands
 else
-    if [[ "$@" = "quit" ]]; then
+    if [[ "$@" = "Quit" ]]; then
         exit 0
-    elif [[ "$@" = "start" ]]; then
-        echo -en "\x00prompt\x1fEnter Tag: \n"
+    fi
+    if [[ "$@" = "Start" ]]; then
+        echo -en "\x00prompt\x1fTag: \n"
         echo -en "\0message\x1f<b>Quit</b> to exit\n"
-        echo "quit"
+        echo -en "Quit\0icon\x1fexit\n"
+        # echo "Quit"
         TASK=$(echo )
-    elif [[ "$@" = "stop" ]]; then
+    elif [[ "$@" = "Stop" ]]; then
         timew stop >/dev/null
         exit 0
-    elif [[ "$@" = "cancel" ]]; then
+    elif [[ "$@" = "Cancel" ]]; then
         timew cancel >/dev/null
     else
         timew start "$@" >/dev/null
