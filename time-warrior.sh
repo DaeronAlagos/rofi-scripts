@@ -33,10 +33,16 @@ list_commands() {
 _tags() {
     TAGS=($(timew tags :week))
     S_TAGS=${TAGS[@]:4}
-    NEW_TAGS=( ${S_TAGS[@]//-/} )
-    for tag in ${NEW_TAGS[@]}
+    C_TAGS=()
+    NEW_TAGS=()
+    for tag in ${S_TAGS[@]}
     do
-        echo $tag
+        if [[ "$tag" != "-" ]]; then
+            C_TAGS+=($tag)
+        else
+            echo "${C_TAGS[@]}"
+            unset C_TAGS
+        fi
     done
 }
 
