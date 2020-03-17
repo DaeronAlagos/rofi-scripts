@@ -5,6 +5,7 @@ COMMANDS=(
     "Stop"
     "Track"
     "Cancel"
+    "Continue"
     # ["Undo"]="undo"
     # ["Join"]="join"
     # ["Split"]="split"
@@ -14,7 +15,6 @@ COMMANDS=(
     # ["Lengthen"]="lengthen"
     # ["Move"]="move"
     # ["Delete"]="delete"
-    # ["Continue"]="continue"
     # ["Cancel"]="cancel"
     # ["Track"]="track"
     # ["Stop"]="stop"
@@ -46,6 +46,32 @@ _tags() {
     done
 }
 
+_intervals() {
+    INTERVALS=$(timew summary :ids :yesterday)
+    declare -A ITEMS
+    declare -- IDX
+    for i in ${INTERVALS[@]}
+    do
+        if [[ $i =~ @[0-9] ]]; then
+            IDX="${i}"
+        elif [[ -n $IDX ]]; then
+            ITEMS[$i]="$IDX"
+            unset IDX
+        fi
+    done
+    for int in ${!ITEMS[@]}
+    do
+        echo $int
+    done
+}
+
+# Check if data file exists. Create it if not.
+if [[ ! -f $HOME/.config/rofi/time-warrior.dat ]]; then
+    touch $HOME/.config/rofi/time-warrior.dat
+fi
+
+declare -A CONF
+
 if [[ -z "$@" ]]; then
     list_commands
 else
@@ -63,6 +89,8 @@ else
         exit 0
     elif [[ "$@" = "Cancel" ]]; then
         timew cancel >/dev/null
+    elif [[ "$@" = "Continue" ]]; then
+        _intervals
     else
         timew start "$@" >/dev/null
         exit 0
