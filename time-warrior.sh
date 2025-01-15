@@ -75,7 +75,7 @@ declare -A CONF
 if [[ -z "$@" ]]; then
     list_commands
 else
-    if [[ "$@" = "Quit" ]]; then
+    if [[ "$*" = "Quit" ]]; then
         exit 0
     fi
     if [[ "$@" = "Start" ]]; then
