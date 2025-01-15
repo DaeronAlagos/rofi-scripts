@@ -79,9 +79,9 @@ else
         exit 0
     fi
     if [[ "$@" = "Start" ]]; then
-        echo -en "\x00prompt\x1fTag: \n"
+        echo -en "\x00prompt\x1fNew tags: \n"
         echo -en "\0message\x1f<b>Quit</b> to exit\n"
-        _tags
+        # _tags
         echo -en "Quit\0icon\x1fexit\n"
     elif [[ "$@" = "Stop" ]]; then
         timew stop >/dev/null
