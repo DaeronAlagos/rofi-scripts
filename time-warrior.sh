@@ -83,16 +83,21 @@ else
         echo -en "\0message\x1f<b>Quit</b> to exit\n"
         _tags
         echo -en "Quit\0icon\x1fexit\n"
-
     elif [[ "$@" = "Stop" ]]; then
         timew stop >/dev/null
         exit 0
     elif [[ "$@" = "Cancel" ]]; then
         timew cancel >/dev/null
     elif [[ "$@" = "Continue" ]]; then
+        echo -en "\x00prompt\x1fID: \n"
+        echo -en "\0message\x1f<b>Quit</b> to exit\n"
         _intervals
+        echo -en "Quit\0icon\x1fexit\n"
+    elif [[ "$PREVIOUS" = "Continue" ]]; then
+        timew continue "@$@"
     else
         timew start "$@" >/dev/null
         exit 0
     fi
+    PREVIOUS="$@"
 fi
