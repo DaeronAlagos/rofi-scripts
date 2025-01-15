@@ -47,7 +47,7 @@ _tags() {
 }
 
 _intervals() {
-    INTERVALS=$(timew summary :ids :yesterday)
+    INTERVALS=$(timew summary :ids :week)
     declare -A ITEMS
     declare -- IDX
     for i in ${INTERVALS[@]}
