@@ -47,22 +47,22 @@ _tags() {
 }
 
 _intervals() {
-    INTERVALS=$(timew summary :ids :week)
-    declare -A ITEMS
-    declare -- IDX
-    for i in ${INTERVALS[@]}
-    do
-        if [[ $i =~ @[0-9] ]]; then
-            IDX="${i}"
-        elif [[ -n $IDX ]]; then
-            ITEMS[$i]="$IDX"
-            unset IDX
+    # Read the timew summary output line by line
+    while IFS= read -r line; do
+        # Skip the header line and empty lines
+        if [[ $line =~ ^Wk|^$|^[[:space:]]*$ ]]; then
+            continue
         fi
-    done
-    for int in ${!ITEMS[@]}
-    do
-        echo $int
-    done
+        
+        # Extract the ID and tags using awk
+        if [[ $line =~ @[0-9]+ ]]; then
+            id=$(echo "$line" | awk '{for(i=1;i<=NF;i++) if($i ~ /@[0-9]+/) print $i}' | sed 's/@//')
+            # Get everything after the ID until the time
+            tags=$(echo "$line" | awk -F '@[0-9]+ ' '{print $2}' | awk '{$NF=""; $(NF-1)=""; $(NF-2)=""; print $0}' | sed 's/[[:space:]]*$//')
+            # Format output for rofi
+            echo -e "${tags}\0info\x1f@${id}"
+        fi
+    done < <(timew summary :ids :week)
 }
 
 # Check if data file exists. Create it if not.
