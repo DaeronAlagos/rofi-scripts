@@ -25,7 +25,7 @@ list_commands() {
     echo -en "\0message\x1f<b>Quit</b> to exit\n"
     for command in ${COMMANDS[@]}
     do
-        echo $command
+        echo -e $command
     done
     echo -en "Quit\0icon\x1fexit\n"
 }
