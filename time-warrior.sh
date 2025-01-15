@@ -3,9 +3,9 @@
 COMMANDS=(
     "Start\0icon\x1fstart\n"
     "Stop\0icon\x1fstop\n"
+    "Continue\0icon\x1fforward\n"
     "Track\0icon\x1fclock\n"
     "Cancel\0icon\x1fcancel\n"
-    "Continue\0icon\x1fforward\n"
     # ["Undo"]="undo"
     # ["Join"]="join"
     # ["Split"]="split"
